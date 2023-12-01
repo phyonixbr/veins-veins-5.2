@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<routes>
+ <vType id="vtype0"  vclass= "10" accel="2.6" depart="0" decel="4.5" sigma="0.5" length="2.5" minGap="20" maxSpeed="14" color="1,1,0"/>
+
+ <route id="route1" edges="gneE4 gneE5.0 gneE5.2180 gneE6"/> <!-- from west to east -->
+ <route id="route1metade" edges="gneE4 gneE5.0"/> <!-- from west to east -->
+  
+ <flow id="flow0" type="vtype0" route="route1" begin="0" period="1" number="10" departLane="0" lane="0"/> 
+
+</routes>
+
