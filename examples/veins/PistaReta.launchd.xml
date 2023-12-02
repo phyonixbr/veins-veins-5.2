@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!-- debug config -->
+<launch>
+	<copy file="PistaReta.net.xml" />
+	<copy file="PistaRetaRotas.rou.xml" />
+	<copy file="PistaReta.sumo.cfg" type="config" />
+</launch>
+

@@ -1,0 +1,10 @@
+Coluna A - TamBytes (ok)
+Coluna B - QtdCarros (ok)
+Coluna C - idCar (Corresponde a variável idLider do líder de pelotão que está recebendo as mensagem - ok)
+Coluna D - tempoManutencao (ok corresponde ao tempoLimite)
+Coluna E - idLider (Corresponde à variável idLider que está na visão de pelotão.
+Coluna F - Cronometro (trata-se a varíavel que cresce monotonicamente considerando o valor de tempo limite - ok)
+Coluna G - tempoRecebimento (Tempo que a mensagem leva para sair do líder remetente e chegar no destino)
+Coluna H - latenciaRecebimento (Valor obtido pela substraçao da variável tempoRecebimento e Cronometro)
+Coluna J - (Poderia me explicar? Não entendi direito)
+Coluna K - Vizinhos (Poderia me explicar? Não entendi direito)
