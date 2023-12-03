@@ -46,13 +46,13 @@ protected:
     std::mutex mtx;
     std::vector<int> listaBeaconsRecebidos;
     std::vector<int> listaAux;
-    void onWSM(BaseFrame1609_4* wsm) override;
-    void onWSA(DemoServiceAdvertisment* wsa) override;
-    void recebeBeacon(TraCIDemo11pMessage* pMsg);
+    void onWSM(BaseFrame1609_4* wsm) override; //método que recebe beacon (mensagens de controle)
+    void onWSA(DemoServiceAdvertisment* wsa) override; //método de advertencia sobre a via
+    void recebeBeacon(TraCIDemo11pMessage* pMsg); //metodo que trata o beacon de acordo com o protocolo do Maycon
     bool existeVeiculoNaListaDeBeacons(int pIdVeiculo);
     void enviaDadosParaGestao();
     void enviaDadosViaDocker(int pNumBeacomCarro);
-    void initialize(int stage) override;
+    void initialize(int stage) override; //método que inicializa o carro
     void handleSelfMsg(cMessage* msg) override;
 };
 

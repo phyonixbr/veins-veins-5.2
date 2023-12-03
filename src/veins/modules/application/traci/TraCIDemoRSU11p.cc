@@ -24,6 +24,10 @@
 
 #include "veins/modules/application/traci/TraCIDemo11pMessage_m.h"
 
+#include <iostream>
+
+#include <curl/curl.h>
+
 using namespace veins;
 
 Define_Module(veins::TraCIDemoRSU11p);
@@ -31,7 +35,7 @@ Define_Module(veins::TraCIDemoRSU11p);
 void TraCIDemoRSU11p::initialize(int stage)
 { //Método de Inicialização da RSU
     BaseApplLayer::initialize(stage);
-    periodoGestaoBeacon = 50; //Definir aqui o tempo de sincronização com o módulo de gestão
+    periodoGestaoBeacon = 50; //Definir aqui o tempo de sincronização com o módulo de gestão em ms
 
     if (stage == 0) { //Estágio de Criação da RSU
         eventoEnviaBInf0rmacoeGestao = new cMessage("msg Gestão Beacon evt",SEND_MSG_GESTAO);
@@ -43,7 +47,7 @@ void TraCIDemoRSU11p::initialize(int stage)
 
         tempoInicioMsgGestaoBeacon = simTime().dbl() + periodoGestaoBeacon;
 
-       scheduleAt(tempoInicioMsgGestaoBeacon, eventoEnviaBInf0rmacoeGestao);
+       scheduleAt(tempoInicioMsgGestaoBeacon, eventoEnviaBInf0rmacoeGestao); //determina um tempo para o evento
 
     }
 
@@ -133,6 +137,7 @@ bool TraCIDemoRSU11p::existeVeiculoNaListaDeBeacons(int pIdVeiculo)
 
 }
 
+//Método acionado em cada período agendado para executar o evento de envia DadosParaGestão()
 void TraCIDemoRSU11p::enviaDadosParaGestao()
 {
     int NumBeaconRecebidos;
@@ -150,7 +155,6 @@ void TraCIDemoRSU11p::enviaDadosParaGestao()
     listaBeaconsRecebidos.clear();
 
 
-
     std::cout << "\n $$$$$$$ Dados Disseminados para modulos de controle  BeaconRecebidos ="<<listaBeaconsRecebidos.size();
     std::cout<< " NumBeacon Aux"<<NumbeaconAux;
 
@@ -164,6 +168,43 @@ void TraCIDemoRSU11p::enviaDadosParaGestao()
 
 void TraCIDemoRSU11p::enviaDadosViaDocker(int pNumBeacomCarro)
 {
+   std::string numBeaconCarro = "";
+   numBeaconCarro = pNumBeacomCarro +"";
+   // Inicialize o cURL
+       CURL* curl = curl_easy_init();
+
+       if (curl) {
+           // Configurar a URL alvo
+           const char* url = "http://192.168.1.100:5000/receber_dados";
+           curl_easy_setopt(curl, CURLOPT_URL, url);
+
+           // Configurar o método da requisição
+           curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+
+           // Configurar o cabeçalho
+           struct curl_slist* headers = NULL;
+           headers = curl_slist_append(headers, "Content-Type: application/json");
+           curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+           // Configurar o corpo da requisição
+           const char* data = R"({"placa": "ABC1236", "hora": "2023-10-27 10:30:00"})";
+           curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+
+           // Realizar a requisição
+           CURLcode res = curl_easy_perform(curl);
+
+           // Verificar se a requisição foi bem-sucedida
+           if (res != CURLE_OK) {
+               fprintf(stderr, "Falha na requisição: %s\n", curl_easy_strerror(res));
+           }
+
+           // Limpar recursos
+           curl_slist_free_all(headers);
+           curl_easy_cleanup(curl);
+       }
+
+       return 0;
+
 
 }
 
